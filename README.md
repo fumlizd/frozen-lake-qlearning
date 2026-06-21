@@ -1,7 +1,6 @@
 # Frozen Lake Q-Learning from First Principles
 
 DSCD 614 – Reinforcement Learning · Assignment 1  
-University of Ghana, Department of Computer Science, Semester II 2025/2026
 
 ---
 
@@ -9,13 +8,11 @@ University of Ghana, Department of Computer Science, Semester II 2025/2026
 
 ### What is Reinforcement Learning?
 
-Reinforcement Learning (RL) is a branch of machine learning in which an **agent** learns to make decisions by interacting with an **environment**. The agent observes the current **state**, selects an **action**, receives a **reward** signal, and transitions to a new state. Over time, through trial and error, the agent learns a **policy** — a mapping from states to actions — that maximises cumulative reward.
-
-Unlike supervised learning, RL requires no labelled dataset; the feedback is sparse and delayed. The agent must balance **exploration** (trying new actions to discover their rewards) and **exploitation** (choosing actions already known to yield high reward).
+According to the Reinforcement Learning (RL) paradigm, an autonomous agent learns how to make decisions by interacting with its surroundings. The agent receives a reward signal together with a transition to a new state at each discrete time step after observing the current state and choosing an action based on its policy. Finding a policy that maximizes the anticipated total of discounted future rewards is the goal.
 
 ### What is Frozen Lake?
 
-Frozen Lake is a classical grid-world problem used extensively in RL research and education. An agent must navigate an 8×8 grid of ice, starting from the top-left corner and reaching the goal at the bottom-right corner while avoiding holes in the ice. The map used in this assignment is:
+Frozen Lake is a benchmark Reinforcement Learning environment in which an agent learns to navigate a slippery frozen surface from a starting position to a goal while avoiding holes. It is widely used to illustrate how algorithms such as Q-Learning learn optimal decision-making through trial and error, making it an excellent educational tool for understanding the fundamentals of Reinforcement Learning. The map used in this assignment is:
 
 ```
 S F F F F F F F
@@ -37,7 +34,7 @@ F F F H F F F G
 
 ## Environment Design
 
-Implemented in `environment.py` as the `FrozenLakeEnv` class.
+Environment design refers to the process of creating and defining the world in which a reinforcement learning (RL) agent operates. The environment is the setting in which the agent interacts while learning to make decisions and achieve specific goals. It provides the agent with information about its current situation, responds to the agent's actions, and generates rewards or penalties that guide the learning process.
 
 ### State Representation
 
@@ -52,7 +49,7 @@ Each of the 64 grid cells is encoded as a single integer `state = row × 8 + col
 | 2     | Right     | 0         | +1        |
 | 3     | Up        | −1        | 0         |
 
-Movement at grid boundaries is clamped — the agent stays in place if it would move off the grid.
+Movement at grid boundaries is clamped, the agent stays in place if it would move off the grid.
 
 ### Reward Structure
 
@@ -72,9 +69,9 @@ Implemented in `agent.py` as the `QLearningAgent` class.
 
 ### Description
 
-Q-Learning is a **model-free, off-policy** temporal-difference (TD) algorithm. It maintains a Q-table `Q[s, a]` that estimates the expected cumulative discounted reward for taking action `a` in state `s` and then following the greedy policy.
 
-### Update Equation
+
+### Updated Equation
 
 ```
 Q(s, a) ← Q(s, a) + α [ r + γ · max_a' Q(s', a') − Q(s, a) ]
@@ -170,7 +167,7 @@ The policy routes the agent around the column-3 holes via the right side of the 
 
 ### Discussion
 
-The training curves (`results/training_curves.png`) show a smooth, monotonic improvement in success rate across 50,000 episodes. The choice of ε-decay = 0.9999 keeps exploration active for the first ~25,000 episodes, allowing the agent to discover the goal frequently enough to fill in meaningful Q-values for the safe paths. After convergence the greedy policy achieves a 100% success rate, demonstrating that Q-Learning reliably solves deterministic Frozen Lake given sufficient exploration and a well-tuned reward signal.
+The training results in results/training_curves.png show that the agent's performance improved steadily throughout the 50,000 training episodes. Setting the epsilon decay rate to 0.9999 allowed the agent to continue exploring the environment for a longer period, giving it enough opportunities to find the goal and learn the safest paths. As training progressed, the agent gradually relied more on what it had learned and eventually converged to an optimal policy. The final policy achieved a 100% success rate, showing that Q-Learning can effectively solve a deterministic Frozen Lake environment when given sufficient exploration and an appropriate reward structure.
 
 ---
 
