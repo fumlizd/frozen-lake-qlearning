@@ -1,0 +1,7 @@
+{
+  "n_episodes": 500,
+  "successes": 500,
+  "failures": 0,
+  "success_rate_pct": 100.0,
+  "avg_reward": 1.0
+}
